@@ -1,6 +1,7 @@
 package com.mhl.practice.model
 
 import com.mhl.practice.utils.Users
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -16,5 +17,5 @@ interface UsersService {
     @POST("createUser")
     suspend fun createUser(
         @Body users: Users
-    ): String
+    ): ResponseBody
 }

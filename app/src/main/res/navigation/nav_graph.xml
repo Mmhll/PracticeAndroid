@@ -11,10 +11,10 @@
         android:label="fragment_authorization"
         tools:layout="@layout/fragment_authorization" >
         <action
-            android:id="@+id/action_authorizationFragment_to_registrationFragment"
+            android:id="@+id/auth_to_reg"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_authorizationFragment_to_gameFragment"
+            android:id="@+id/auth_to_game"
             app:destination="@id/gameFragment" />
     </fragment>
     <fragment
@@ -23,7 +23,7 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_authorizationFragment"
+            android:id="@+id/reg_to_auth"
             app:destination="@id/authorizationFragment" />
     </fragment>
     <fragment
@@ -32,7 +32,7 @@
         android:label="fragment_game"
         tools:layout="@layout/fragment_game" >
         <action
-            android:id="@+id/action_gameFragment_to_authorizationFragment"
+            android:id="@+id/game_to_auth"
             app:destination="@id/authorizationFragment" />
     </fragment>
 </navigation>

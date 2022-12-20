@@ -11,16 +11,25 @@ import javax.inject.Inject
 class LocalRepository @Inject constructor(
     private val dao: DatabaseDao
 ) {
-    suspend fun saveUser(user: UserEntity) = dao.saveUser(user)
+    suspend fun saveUser(user: UserEntity) {
+        dao.deleteUser()
+        dao.saveUser(user)
+    }
 
     suspend fun getUser(): Flow<UserEntity> {
         return flow {
-            val data = dao.getUser()
+
+            var data = UserEntity(0, "", "", "")
+            try {
+                data = dao.getUser()
+            } catch (_: NullPointerException){ }
             emit(data)
         }
     }
 
     suspend fun saveGrid(grid: GridEntity) = dao.saveGrid(grid)
+
+    suspend fun deleteGrid() = dao.deleteGameInfo()
 
     suspend fun getGrid(): Flow<GridEntity> {
         return flow {

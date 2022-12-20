@@ -80,7 +80,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/playersText"
-                app:srcCompat="@drawable/zero" />
+                app:srcCompat="@drawable/cross" />
 
             <TextView
                 android:id="@+id/firstPlayerName"
@@ -113,7 +113,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/firstPlayerRating"
-                app:srcCompat="@drawable/cross" />
+                app:srcCompat="@drawable/zero" />
 
             <TextView
                 android:id="@+id/secondPlayerName"

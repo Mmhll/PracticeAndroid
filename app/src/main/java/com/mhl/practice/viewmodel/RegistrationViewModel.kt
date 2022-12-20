@@ -2,10 +2,11 @@ package com.mhl.practice.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mhl.practice.model.LocalRepository
+import androidx.lifecycle.viewModelScope
 import com.mhl.practice.model.UsersRepository
 import com.mhl.practice.utils.Users
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -14,25 +15,30 @@ class RegistrationViewModel @Inject constructor(
     @Named("authRepository") private val remoteRepository: UsersRepository
 ) : ViewModel() {
 
-    val remoteData = MutableLiveData<Users>()
+    private var successful: String = ""
+    val isSuccessful = MutableLiveData<Boolean>()
 
 
-    suspend fun register(nickname: String, email: String, password: String, repassword: String): Boolean{
-        if (password != repassword){
-            return false
+    private fun checkRegistration(
+    ) {
+        when (successful) {
+            "Successful" -> isSuccessful.value = true
+            else -> isSuccessful.value = false
         }
-        remoteRepository.createUser(users = Users(email = email, password = password, fullName = nickname)).collect{
-            val success = it
-            if (success == "Successful"){
-                remoteRepository.authenticate(email, password).collect{ user ->
-                    if (user.email.isNotEmpty()){
-                        remoteData.value = user
-                    }
-                }
+    }
+
+    fun registration(
+        nickname: String, email: String, password: String,
+    ) {
+        viewModelScope.launch {
+            remoteRepository.createUser(
+                users = Users(
+                    email = email, password = password, fullName = nickname
+                )
+            ).collect {
+                successful = it.string()
             }
+            checkRegistration()
         }
-
-        return true
-
     }
 }

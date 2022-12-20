@@ -3,25 +3,21 @@ package com.mhl.practice.view
 import android.app.AlertDialog
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mhl.practice.R
 import com.mhl.practice.databinding.FragmentGameBinding
 import com.mhl.practice.model.Cell
-import com.mhl.practice.model.CellState
 import com.mhl.practice.model.Grid
 import com.mhl.practice.model.GridState
 import com.mhl.practice.viewmodel.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class GameFragment : Fragment() {
@@ -30,8 +26,6 @@ class GameFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: GameViewModel by viewModels()
-    private var cross = 0
-    private var zero = 0
     private var username: String = "Первый игрок"
 
     override fun onCreateView(
@@ -45,7 +39,6 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupMenu()
 
         viewModel.getGrid()
 
@@ -58,7 +51,8 @@ class GameFragment : Fragment() {
             menu.show()
             menu.setOnMenuItemClickListener { item ->
                 if (item.title == "Выйти") {
-                    findNavController().navigate(R.id.action_gameFragment_to_authorizationFragment)
+                    viewModel.exit()
+                    findNavController().navigate(R.id.game_to_auth)
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -110,7 +104,7 @@ class GameFragment : Fragment() {
                 GridState.INCOMPLETE -> {}
             }
         }
-        viewModel.user.observe(viewLifecycleOwner){
+        viewModel.user.observe(viewLifecycleOwner) {
             binding.firstPlayerName.text = it.fullName
             username = it.fullName
         }
@@ -119,15 +113,9 @@ class GameFragment : Fragment() {
         bindClickEvents()
 
         viewModel.currentTurn.observe(viewLifecycleOwner) {
-            if (cross == it && cross == 0) {
+            if (it == 0) {
                 binding.movePlayerName.text = username
                 binding.moveCharacterImage.setImageResource(R.drawable.cross)
-            } else if (cross == it && cross == 1) {
-                binding.movePlayerName.text = "Второй игрок"
-                binding.moveCharacterImage.setImageResource(R.drawable.cross)
-            } else if (cross != it && cross == 1) {
-                binding.movePlayerName.text = username
-                binding.moveCharacterImage.setImageResource(R.drawable.zero)
             } else {
                 binding.movePlayerName.text = "Второй игрок"
                 binding.moveCharacterImage.setImageResource(R.drawable.zero)
@@ -185,40 +173,20 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun setupMenu() {
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.game_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                if (menuItem.title.toString() == "Выйти") {
-                    findNavController().navigate(R.id.action_gameFragment_to_authorizationFragment)
-                }
-                return true
-            }
-
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-    }
 
     private fun firstTurn() {
 
+        binding.moveCharacterImage.setImageResource(R.drawable.cross)
         binding.gameTimer.base = SystemClock.elapsedRealtime()
 
         viewModel.resetGrid()
-        cross = Random.nextInt(0, 2)
-
-        when (cross) {
-            0 -> {
-                binding.movePlayerName.text = username
-                zero = 1
-            }
-            1 -> binding.movePlayerName.text = "Второй игрок"
-        }
-        binding.moveCharacterImage.setImageResource(R.drawable.cross)
-        Thread.sleep(1000)
 
         binding.gameTimer.start()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        viewModel.exit()
     }
 
     override fun onStop() {

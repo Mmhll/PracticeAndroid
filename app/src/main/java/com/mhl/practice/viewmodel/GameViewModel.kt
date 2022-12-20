@@ -34,26 +34,30 @@ class GameViewModel @Inject constructor(
 
     private fun updateGrid() {
         liveGrid.value = grid
-        saveGrid()
     }
 
+    fun exit(){
+        viewModelScope.launch {
+            localRepository.deleteGrid()
+        }
+    }
 
     fun gridClicked(cell: Cell) {
         when (turn) {
             0 -> {
                 if (grid.setCell(cell, CellState.Cross)) {
-                    updateGrid()
                     turn = 1
                 }
             }
             1 -> {
                 if (grid.setCell(cell, CellState.Zero)) {
-                    updateGrid()
                     turn = 0
                 }
             }
         }
         currentTurn.value = turn
+        saveGrid()
+        updateGrid()
     }
 
 
@@ -61,6 +65,7 @@ class GameViewModel @Inject constructor(
         grid.clearGrid()
         updateGrid()
         turn = 0
+        currentTurn.value = turn
     }
 
     private fun getUser() {
@@ -98,8 +103,7 @@ class GameViewModel @Inject constructor(
                 try {
                     gridString = it.cells
                     savedTurn = it.turn
-                } catch (e: NullPointerException){
-
+                } catch (_: NullPointerException) {
                 }
             }
             if (gridString.isNotEmpty()) {

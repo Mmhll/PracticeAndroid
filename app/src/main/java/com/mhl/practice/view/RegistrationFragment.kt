@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mhl.practice.R
 import com.mhl.practice.databinding.FragmentRegistrationBinding
 import com.mhl.practice.viewmodel.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
@@ -22,7 +20,6 @@ class RegistrationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: RegistrationViewModel by viewModels()
-    private var success = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +37,23 @@ class RegistrationFragment : Fragment() {
             val repassword = binding.registrationRePasswordInput.text.toString()
             val nickname = binding.registrationNicknameInput.text.toString()
             if (email.isNotEmpty() && password.isNotEmpty() && repassword.isNotEmpty() && nickname.isNotEmpty()) {
-                lifecycleScope.launch {
-                    success = viewModel.register(nickname, email, password, repassword)
-                }
-                if (success) {
+                if (password == repassword) {
 
-                    findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Что-то пошло не так или вы ввели некорректные данные",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    viewModel.registration(nickname, email, password)
+                    viewModel.isSuccessful.observe(viewLifecycleOwner) {
+                        if (it) {
+                            findNavController().navigate(R.id.reg_to_auth)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Что-то пошло не так или вы ввели некорректные данные",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+                else {
+                    Toast.makeText(requireContext(), "Пароли не совпадают", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(

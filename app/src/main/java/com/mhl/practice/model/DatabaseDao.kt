@@ -11,10 +11,15 @@ import com.mhl.practice.utils.UserEntity
 interface DatabaseDao {
     @Query("SELECT * FROM users")
     suspend fun getUser(): UserEntity
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun saveUser(userEntity: UserEntity)
     @Query("SELECT * FROM cells")
     suspend fun getGrid(): GridEntity
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveGrid(grid: GridEntity)
+    @Query("DELETE FROM users")
+    suspend fun deleteUser()
+    @Query("DELETE FROM cells")
+    suspend fun deleteGameInfo()
+
 }
