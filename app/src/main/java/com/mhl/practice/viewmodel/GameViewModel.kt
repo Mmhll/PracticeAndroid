@@ -39,6 +39,7 @@ class GameViewModel @Inject constructor(
     fun exit(){
         viewModelScope.launch {
             localRepository.deleteGrid()
+            localRepository.deleteUser()
         }
     }
 

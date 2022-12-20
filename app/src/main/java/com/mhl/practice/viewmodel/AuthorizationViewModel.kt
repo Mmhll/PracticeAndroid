@@ -21,8 +21,22 @@ class AuthorizationViewModel @Inject constructor(
 
     private val remoteData = MutableLiveData<Users>()
     val isSuccessful = MutableLiveData<Boolean>()
+    var isAuthorized = MutableLiveData<Boolean>()
 
+    init {
+        authorized()
+    }
 
+    private fun authorized() {
+        viewModelScope.launch {
+            try {
+                localRepository.getUser().collect{
+                    isAuthorized.value = it.email.isNotEmpty()
+                }
+            } catch (_: Exception){
+            }
+        }
+    }
 
 
     fun authorize(email: String, password: String) {
@@ -39,7 +53,6 @@ class AuthorizationViewModel @Inject constructor(
                             it.fullName
                         )
                     )
-
                 }
             }
         }
@@ -53,7 +66,7 @@ class AuthorizationViewModel @Inject constructor(
     }
 
     private fun checkAuthorize() {
-        isSuccessful.value = remoteData.value!!.email.isNotEmpty()
+        isSuccessful.value = remoteData.value?.email?.isNotEmpty()
     }
 
 

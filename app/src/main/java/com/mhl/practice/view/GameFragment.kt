@@ -16,8 +16,10 @@ import com.mhl.practice.databinding.FragmentGameBinding
 import com.mhl.practice.model.Cell
 import com.mhl.practice.model.Grid
 import com.mhl.practice.model.GridState
+import com.mhl.practice.model.LocalRepository
 import com.mhl.practice.viewmodel.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GameFragment : Fragment() {
@@ -41,6 +43,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getGrid()
+
 
 
         binding.gameMenu.setOnClickListener {

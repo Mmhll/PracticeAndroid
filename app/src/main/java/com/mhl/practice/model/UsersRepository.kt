@@ -12,7 +12,7 @@ class UsersRepository @Inject constructor(
 ){
     suspend fun authenticate(email: String, password: String): Flow<Users> {
         return flow {
-            var data = Users(email = "", password = "", fullName = "")
+            var data = Users(id = 0, email = "", password = "", fullName = "")
             try {
                 data = remoteService.authenticate(email, password)
             } catch (_: HttpException){

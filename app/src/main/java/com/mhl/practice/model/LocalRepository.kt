@@ -31,6 +31,8 @@ class LocalRepository @Inject constructor(
 
     suspend fun deleteGrid() = dao.deleteGameInfo()
 
+    suspend fun deleteUser() = dao.deleteUser()
+
     suspend fun getGrid(): Flow<GridEntity> {
         return flow {
             val data: GridEntity = try {
