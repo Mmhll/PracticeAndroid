@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    tools:context=".view.RegistrationFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="24sp"
+            android:text="@string/registration_text"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_bold"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/registrationEmailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_hint"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_hint"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:paddingHorizontal="20dp"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/input_shape"
+            android:paddingVertical="12dp"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/registrationNicknameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nick_hint"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:paddingHorizontal="20dp"
+            android:textColorHint="@color/gray_hint"
+            android:background="@drawable/input_shape"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingVertical="12dp"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/registrationPasswordInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_hint"
+
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textColorHint="@color/gray_hint"
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/input_shape"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingVertical="12dp"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/registrationRePasswordInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/repassword_hint"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_hint"
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/input_shape"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingVertical="12dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registrationButton"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/reg_button"
+            android:layout_width="match_parent"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/authentication_button_shape"
+            android:layout_height="wrap_content"/>
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

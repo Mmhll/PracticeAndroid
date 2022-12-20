@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Practice</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_the_game_text">Войдите в игру</string>
+    <string name="login_hint">Логин</string>
+    <string name="enter_button">Войти</string>
+    <string name="password_hint">Пароль</string>
+    <string name="reg_button">Зарегистрироваться</string>
+    <string name="registration_text">Регистрация</string>
+    <string name="email_hint">E-mail</string>
+    <string name="nick_hint">Никнейм</string>
+    <string name="repassword_hint">Повторите пароль</string>
+    <string name="players_text">Игроки</string>
+    <string name="some_name">Какое-то имя</string>
+    <string name="wins">Процент побед находится в разработке</string>
+    <string name="second_player_name">Второй игрок</string>
+    <string name="timer_zero">0:00</string>
+    <string name="moves">Ходит</string>
+    <string name="message">Сообщение...</string>
+    <string name="logout">Выйти</string>
+</resources>
